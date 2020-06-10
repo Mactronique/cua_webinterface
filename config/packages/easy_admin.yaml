@@ -1,0 +1,71 @@
+easy_admin:
+    list:
+      max_results: 30
+    entities:
+        # List the entity class name you want to manage
+        Customer:
+            class: App\Entity\Customer
+            label: Customers
+            form:
+              fields:
+                - property: 'name'
+
+                - property: 'contacts'
+                  type: 'collection'
+                  type_options:
+                      entry_type: App\Form\ContactEmbeddedFormType
+                      allow_delete: true
+                      allow_add: true
+                      by_reference: false
+        Project:
+            class: App\Entity\Project
+            list:
+              fields: ['code', 'customer', 'name', 'enabled', 'checkDependencies', 'checkSecurity', 'contacts']
+            form:
+              fields:
+                -
+                  property: 'code'
+                  help: 'Need unique. Max 10 char'
+                -
+                  property: 'customer'
+                  help: 'Customer owner of this project'
+                -
+                  property: 'name'
+                -
+                  property: 'path'
+                  help: 'Path of the project on server'
+                -
+                  property: 'lockPath'
+                  help: 'Project composer.lock path. relativ to the path project.'
+                -
+                  property: 'phpPath'
+                  help: 'PHP executable name or absolute path.'
+                -
+                  property: 'privateDependencies'
+                  help: 'List here (one per line) all private depdendencies included in this project.'
+                -
+                  property: 'privateDependenciesStrategy'
+                  type: 'choice'
+                  type_options:
+                    choices: {'Remove': 'remove', 'Hash': 'hash'}
+                  help: 'Select the strategy to proccess the private dependencies before send composer.lock to the security check service.'
+                -
+                  property: 'checkDependencies'
+                -
+                  property: 'checkSecurity'
+                -
+                  property: 'enabled'
+                -
+                  property: 'contacts'
+                  type: 'entity'
+                  type_options: { class: 'App\Entity\Contact', multiple: true, attr: { data-widget: 'select2'} }
+        Dependency:
+            class: App\Entity\Dependency
+            list:
+              fields: ['id', 'project', 'library', 'version', 'state', 'toVersion', 'deprecated', 'updatedAt']
+              actions: ['-edit', '-remove', '-new']
+        SecurityIssue:
+            class: App\Entity\SecurityIssue
+            list:
+              fields: ['id', 'project', 'library', 'version', 'state', 'updatedAt']
+              actions: ['-edit', '-remove', '-new', 'show']
