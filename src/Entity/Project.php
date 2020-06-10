@@ -138,7 +138,12 @@ class Project
     /**
      * @var array|ArrayCollection|Contact[]
      *
-     * @ORM\ManyToMany(targetEntity=Contact::class, mappedBy="project", cascade={"remove", "persist"})
+     * @ORM\ManyToMany(targetEntity=Contact::class, inversedBy="project", cascade={"remove", "persist"})
+     * @ORM\JoinTable(
+     *     name="contacts_projects",
+     *     joinColumns={@ORM\JoinColumn(name="project_code", referencedColumnName="code")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="contact_id", referencedColumnName="id")}
+     *     )
      */
     private $contacts;
 
@@ -147,6 +152,11 @@ class Project
         $this->dependencies = new ArrayCollection();
         $this->securityIssues = new ArrayCollection();
         $this->contacts = new ArrayCollection();
+    }
+
+    public function __toString(): string
+    {
+        return $this->name ?? 'Project no name';
     }
 
     public function getCustomer(): ?Customer

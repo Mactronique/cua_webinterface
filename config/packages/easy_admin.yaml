@@ -6,6 +6,8 @@ easy_admin:
         Customer:
             class: App\Entity\Customer
             label: Customers
+            list:
+              actions: ['show']
             form:
               fields:
                 - property: 'name'
@@ -57,8 +59,8 @@ easy_admin:
                   property: 'enabled'
                 -
                   property: 'contacts'
-                  type: 'entity'
-                  type_options: { class: 'App\Entity\Contact', multiple: true, attr: { data-widget: 'select2'} }
+#                  type: 'entity'
+#                  type_options: { class: 'App\Entity\Contact', multiple: true, expanded: true }
         Dependency:
             class: App\Entity\Dependency
             list:

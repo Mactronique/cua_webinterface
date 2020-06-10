@@ -27,12 +27,7 @@ class Contact
     private $customer;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Project::class, inversedBy="contacts", cascade={"persist"})
-     * @ORM\JoinTable(
-     *     name="contacts_projects",
-     *     inverseJoinColumns={@ORM\JoinColumn(name="project_code", referencedColumnName="code")},
-     *     joinColumns={@ORM\JoinColumn(name="contact_id", referencedColumnName="id")}
-     *     )
+     * @ORM\ManyToMany(targetEntity=Project::class, mappedBy="contacts", cascade={"persist"})
      */
     private $project;
 
