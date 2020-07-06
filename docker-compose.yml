@@ -9,4 +9,13 @@ services:
       - ./mysql/data:/var/lib/mysql
     ports:
       - "3306:3306"
+  php:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    image: mactronique/cua-server:latest
+    ports:
+      - "9500:80"
+    depends_on:
+      - db
 
